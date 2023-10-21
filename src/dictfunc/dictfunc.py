@@ -145,20 +145,6 @@ def list_to_dict(a: list):
     return d
 
 
-def common_dict(*dicts):
-    if len(dicts) == 0:
-        return {}
-    _d = {}
-    _d.update(dicts[0])
-    for d in dicts:
-        for k1, v1 in d.items():
-            if k1 not in _d.keys():
-                _d[k1] = v1
-            elif isinstance(v1, dict):
-                _d[k1].update(v1)
-    return _d
-
-
 def get_inverse(key, dic):
     keys, values = list(dic.keys()), list(dic.values())
     idx = values.index(key)
@@ -174,20 +160,21 @@ def merged_dict(a, b):
     return a
 
 
-def union_non_duplicates(*dicts):
+def intersection(*dicts) -> dict:
     ''' 
-    Merges dicts, but skips keys that occur in multiple dicts but are different
+    Get the intersection between given dictionaries. The intersection will contain keys and values that are the same in all given dictionaries.
 
-    example:
-    a = {"a": 1, "b": 3}
-    b = {"a": 2, "b": 3}
-    c = {"c": 4}
-    union_non_duplicates(a, b, c) == {"b": 3, "c": 4}
+    Args:
+        *dicts: dictionaries to be intersected.
+
+    Returns:
+        :dict intersection dictionary of the input dictionaries.
+
     '''
     sets = [set([tuple(lst) for lst in dict_to_list(dic)]) for dic in dicts]
-    ret = set()
+    ret = sets[0]
     for set_ in sets:
-        ret = ret.union(set_)
+        ret = ret.intersection(set_)
     keys = [ret_[:-1] for ret_ in ret]
     non_duplicates = [key for key in keys if keys.count(key) == 1]
     return list_to_dict([lst for lst in ret if lst[:-1] in non_duplicates])
@@ -223,6 +210,9 @@ if __name__ == '__main__':
     a = {"a": 1, "b": 3}
     b = {"a": 2, "b": 3}
     c = {"c": 4}
-    print(union_non_duplicates(a, b, c) == {"b": 3, "c": 4})
+    print(intersection(a, b, c) == {"b": 3, "c": 4})
 
-    print(common_dict(a, b, c))
+    a = {'a': {'b': 'world'}}
+    b = {'a': {'b': 'world', 'b2': 'world2'}}
+    print()
+    print(intersection(a, b) == {'a': {'b': 'world'}})
