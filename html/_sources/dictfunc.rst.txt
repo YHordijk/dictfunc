@@ -1,0 +1,21 @@
+dictfunc package
+================
+
+Submodules
+----------
+
+dictfunc.dictfunc module
+------------------------
+
+.. automodule:: dictfunc.dictfunc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dictfunc
+   :members:
+   :undoc-members:
+   :show-inheritance:
