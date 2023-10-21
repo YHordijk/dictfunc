@@ -117,19 +117,6 @@ def dict_match(a, b):
     return match
 
 
-def dict_match_strict(a, b):
-    matched_keys = [key for key in a.keys() if key in b.keys()]
-    match = True
-    for key in matched_keys:
-        aval, bval = a[key], b[key]
-        if isinstance(aval, dict) and isinstance(bval, dict):
-            match = dict_match(aval, bval)
-        else:
-            if aval != bval:
-                match = False
-    return match
-
-
 def dict_to_list(a: dict):
     lst = []
     if not isinstance(a, dict):
@@ -158,7 +145,7 @@ def list_to_dict(a: list):
     return d
 
 
-def common_dict(dicts):
+def common_dict(*dicts):
     if len(dicts) == 0:
         return {}
     _d = {}
@@ -172,22 +159,6 @@ def common_dict(dicts):
     return _d
 
 
-def union(*dicts):
-    sets = [set([tuple(lst) for lst in dict_to_list(dic)]) for dic in dicts]
-    ret = set()
-    for set_ in sets:
-        ret = ret.union(set_)
-    return list_to_dict(list(ret))
-
-
-def intersection(*dicts):
-    sets = [set([tuple(lst) for lst in dict_to_list(dic)]) for dic in dicts]
-    ret = sets[0]
-    for set_ in sets:
-        ret = ret.intersection(set_)
-    return list_to_dict(list(ret))
-
-
 def get_inverse(key, dic):
     keys, values = list(dic.keys()), list(dic.values())
     idx = values.index(key)
@@ -196,22 +167,6 @@ def get_inverse(key, dic):
 
 def invert(dic):
     return {val: key for key, val in dic.items()}
-
-
-def key_from_value(value, dic):
-    for key, val in dic.items():
-        if val == value:
-            return key
-
-
-def remove_false_keys(dic):
-    to_remove = []
-    for key, value in dic.items():
-        if not value:
-            to_remove.append(key)
-    for key in to_remove:
-        del(dic[key])
-    return dic
 
 
 def merged_dict(a, b):
@@ -265,10 +220,9 @@ if __name__ == '__main__':
     b = {'test1': 1, 'test3': 3}
     c = {'test1': 1, 'test2': 2, 'test3': 3}
 
-    print(union(a, b, c))
-    print(intersection(a, b, c))
-
     a = {"a": 1, "b": 3}
     b = {"a": 2, "b": 3}
     c = {"c": 4}
     print(union_non_duplicates(a, b, c) == {"b": 3, "c": 4})
+
+    print(common_dict(a, b, c))
