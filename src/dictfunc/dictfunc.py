@@ -56,18 +56,18 @@ def dict_match_strict(a, b):
 
 
 def dict_to_list(a: dict):
-    l = []
+    lst = []
     if not isinstance(a, dict):
         return [[a]]
     for k, v in a.items():
         if isinstance(v, dict):
             if v == {}:
-                l.append([k, {}])
+                lst.append([k, {}])
             else:
-                [l.append([k, *x]) for x in dict_to_list(v)]
+                [lst.append([k, *x]) for x in dict_to_list(v)]
         else:
-            l.append([k, v])
-    return l
+            lst.append([k, v])
+    return lst
 
 
 def list_to_dict(a: list):
