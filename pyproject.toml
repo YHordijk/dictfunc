@@ -1,8 +1,8 @@
 [project]
-name = "template"
+name = "dictfunc"
 authors = [
-  { name="Test Person", email="test.person@email.com"}]
-description = "template"
+  { name="Yuman Hordijk", email="yumanhordijk@gmail.com"}]
+description = "Useful dictionary manipulation functions"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
