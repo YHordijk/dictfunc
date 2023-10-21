@@ -84,23 +84,24 @@ class DotDict(dict):
         return key
 
     def prune(self):
-        '''Remove empty paths of this object.
-        '''
-        items = list(self.items())
-        for key, value in items:
-            try:
-                value.prune()
-            except AttributeError:
-                pass
-
-            if not value:
-                del self[key]
+        prune(self)
 
 
-def remove_empty(a: dict):
-    lst = dict_to_list(a)
-    lst = [branch for branch in lst if branch[-1] is not None]
-    return list_to_dict(lst)
+def prune(a: dict) -> None:
+    '''Removes values from a dict or DotDict that are set to None.
+    
+    Args:
+        a: Dictionary or dictionary subclass.
+    '''
+    items = list(a.items())
+    for key, value in items:
+        try:
+            prune(value)
+        except AttributeError:
+            pass
+
+        if value is None or value == {}:
+            del a[key]
 
 
 def dict_match(a, b):
